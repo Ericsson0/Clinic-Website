@@ -1,0 +1,23 @@
+{% extends "layout.html" %} 
+{% block content %}
+<div style="text-align:center"><h1>{{ user.name }}的医生信息</h1></div>
+<div class="content-section">
+  <div class="media">
+    <div class="media-body">
+      {% if user.id == current_user.id %}
+      <a class="nav-item nav-link" href="{{ url_for('update_doctor', user_id=user.id) }}">更改医生信息</a><br>
+      <a class="nav-item nav-link" href="{{ url_for('update_doctor_password', user_id=user.id) }}">更改医生密码</a><hr>
+      {% elif current_user.id == 1 %} 
+        <a class="nav-item nav-link" href="{{ url_for('delete_doctor', user_id=user.id) }}">删除医生信息</a><hr><br>
+      {% endif %}
+      <h6 class="account-heading">医生姓名: {{ user.name }}</h6><hr>
+        <p>科室: {{ user.department }} </p>
+        <hr>
+        <p>注册日期: {{ user.create.strftime('%Y-%m-%d %H:%M') }}</p>
+        <hr>
+      </div>
+      <br>
+    </div>
+  </div>
+</div>
+{% endblock content %}

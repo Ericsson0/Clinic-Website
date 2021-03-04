@@ -1,0 +1,30 @@
+{% extends "layout.html" %} 
+{% block content %}
+<div style="text-align:center"><h1>关于{{ medicine.Medicine_name }}的药品信息</h1></div>
+<div class="content-section">
+  <div class="media">
+    <div class="media-body">
+      <a class="nav-item nav-link" href="{{ url_for('update_medicine', medicine_id=medicine.id) }}">更改药品信息</a><br>
+      {% if current_user.id == 1 %}
+        <a class="nav-item nav-link" href="{{ url_for('delete_medicine', medicine_id=medicine.id) }}">删除药品信息</a><hr><br>
+      {% endif %}
+      <h6 class="account-heading">药品: {{ medicine.Medicine_name }}</h6><hr>
+        <p>供应商: {{ medicine.Vendor }} </p>
+        <hr>
+        <p>价格: {{ medicine.Price }}</p>
+        <hr>
+        <p>数量: {{ medicine.Quantity }}</p>
+        <hr>
+        <p>截止日期: {{ medicine.Deadline }}</p>
+        <hr>
+        <p>食用方式: {{ medicine.How_to_use }}</p>
+        <hr>
+        <p>时间获取: {{ medicine.time_get.strftime('%Y-%m-%d %H:%M') }}</p>
+        <hr>
+        <p class="text-muted">(提示：请把不同种类的药品分开写，方便记录，但一的药品分开写会使查找和记录截止日期更加方便)</p>
+      </div>
+      <br>
+    </div>
+  </div>
+</div>
+{% endblock content %}

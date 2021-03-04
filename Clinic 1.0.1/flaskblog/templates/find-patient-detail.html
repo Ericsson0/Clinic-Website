@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+    <title>博文门诊部</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
+<body>
+  <nav class="w3-sidebar w3-bar-block w3-card w3-animate-left w3-center" style="display:none" id="mySidebar">
+    <button class="w3-bar-item w3-button" onclick="w3_close()">Close <i class="fa fa-remove"></i></button>
+    <a href="{{ url_for('home') }}" class="w3-bar-item w3-button">主页</a>
+    <a href="/patient" class="w3-bar-item w3-button">患者</a>
+    <a href="/medicine" class="w3-bar-item w3-button">药物</a>
+    <a href="/doctor" class="w3-bar-item w3-button">医生</a>
+    <a href="/worklog" class="w3-bar-item w3-button">工作日志</a>
+    <a href="/doctor-information/user/{{ current_user.name }}" class="w3-bar-item w3-button">{{ current_user.name }}</a>
+  </nav>
+
+<!-- Header -->
+<header class="w3-container w3-theme w3-padding" id="myHeader">
+  <i onclick="w3_open()" class="fa fa-bars w3-xlarge w3-button w3-theme"></i> 
+  <div class="w3-center">
+  <h1 class="w3-xxxlarge w3-animate-bottom">查找患者病患信息</h1>
+  </div>
+</header>
+<hr>
+    <br>
+    <script>
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        event.preventDefault()
+        </script>
+      <style>
+      * {
+        box-sizing: border-box;
+      }
+      
+      #myInput {
+        background-image: url('/css/searchicon.png');
+        background-position: 10px 12px;
+        background-repeat: no-repeat;
+        width: 100%;
+        font-size: 16px;
+        padding: 12px 20px 12px 40px;
+        border: 1px solid #ddd;
+        margin-bottom: 12px;
+      }
+      
+      #myUL {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+      }
+      
+      #myUL li a {
+        border: 1px solid #ddd;
+        margin-top: -1px; /* Prevent double borders */
+        background-color: #f6f6f6;
+        padding: 12px;
+        text-decoration: none;
+        font-size: 18px;
+        color: black;
+        display: block
+      }
+      
+      #myUL li a:hover:not(.header) {
+        background-color: #eee;
+      }
+      </style>
+      </head>
+      <body>
+      <input type="text" id="myInput" onkeyup="myFunction()" placeholder="请输入患者姓名..." title="Type in a name">
+      
+      <ul id="myUL">
+        {% for item in values %}
+        <div class='content-section'>
+          <li><a href="/patient-detail/{{ item.name }}">患者姓名: {{ item.name }} | 症状: {{ item.Symptom }} | 病患原因: {{ item.Patient_reason }} | 主治医生: {{ item.Doctor_name }} | 检查结果: {{ item.Check_result }} | 诊断日期: {{item.Date_of_diagnosis.strftime('%Y-%m-%d %H:%M') }}</a></li><hr>
+        </div>
+        {% endfor %}
+      </ul>
+      
+      <script>
+      function myFunction() {
+          var input, filter, ul, li, a, i, txtValue;
+          input = document.getElementById("myInput");
+          filter = input.value.toUpperCase();
+          ul = document.getElementById("myUL");
+          li = ul.getElementsByTagName("li");
+          for (i = 0; i < li.length; i++) {
+              a = li[i].getElementsByTagName("a")[0];
+              txtValue = a.textContent || a.innerText;
+              if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                  li[i].style.display = "";
+              } else { 
+                  li[i].style.display = "none", alert('找不到此药品');
+              }
+          }
+      }
+      </script>
+      <script>
+        // Side navigation
+        function w3_open() {
+          var x = document.getElementById("mySidebar");
+          x.style.width = "100%";
+          x.style.fontSize = "40px";
+          x.style.paddingTop = "10%";
+          x.style.display = "block";
+        }
+        function w3_close() {
+          document.getElementById("mySidebar").style.display = "none";
+        }
+        
+        // Tabs
+        function openCity(evt, cityName) {
+          var i;
+          var x = document.getElementsByClassName("city");
+          for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+          }
+          var activebtn = document.getElementsByClassName("testbtn");
+          for (i = 0; i < x.length; i++) {
+            activebtn[i].className = activebtn[i].className.replace(" w3-dark-grey", "");
+          }
+          document.getElementById(cityName).style.display = "block";
+          evt.currentTarget.className += " w3-dark-grey";
+        }
+        
+        var mybtn = document.getElementsByClassName("testbtn")[0];
+        mybtn.click();
+        
+        // Accordions
+        function myAccFunc(id) {
+          var x = document.getElementById(id);
+          if (x.className.indexOf("w3-show") == -1) {
+            x.className += " w3-show";
+          } else { 
+            x.className = x.className.replace(" w3-show", "");
+          }
+        }
+        
+        // Slideshows
+        var slideIndex = 1;
+        
+        function plusDivs(n) {
+          slideIndex = slideIndex + n;
+          showDivs(slideIndex);
+        }
+        
+        function showDivs(n) {
+          var x = document.getElementsByClassName("mySlides");
+          if (n > x.length) {slideIndex = 1}    
+          if (n < 1) {slideIndex = x.length} ;
+          for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";  
+          }
+          x[slideIndex-1].style.display = "block";  
+        }
+        
+        showDivs(1);
+        
+        // Progress Bars
+        function move() {
+          var elem = document.getElementById("myBar");   
+          var width = 5;
+          var id = setInterval(frame, 10);
+          function frame() {
+            if (width == 100) {
+              clearInterval(id);
+            } else {
+              width++; 
+              elem.style.width = width + '%'; 
+              elem.innerHTML = width * 1  + '%';
+            }
+          }
+        }
+        </script>
+      </body>
+      </html>
