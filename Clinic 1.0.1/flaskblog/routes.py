@@ -1,4 +1,4 @@
-import os
+import os 
 import secrets
 from flask import render_template, url_for, flash, redirect, request, abort, session, jsonify
 from flaskblog import app, db, bcrypt
